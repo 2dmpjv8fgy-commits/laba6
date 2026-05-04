@@ -1,84 +1,133 @@
-# Laboratory work IV
+# Laboratory work V
 
-Данная лабораторная работа посвещена изучению систем непрерывной интеграции на примере сервиса GitHub Actions.
+Реализация банковской системы с комплексным модульным тестированием с использованием фреймворков **Google Test** и **Google Mock**. Настроена автоматическая сборка и проверка покрытия кода через GitHub Actions и Coveralls.
 
-Создание папки и клонирование: `mkdir -p ~/workspace/projects/laba4` && `cd ~/workspace/projects/laba4` и `git clone git@github.com:2dmpjv8fgy-commits/laba3.git laba4`
+## CI/CD Status
+
+- **GitHub Actions**: Сборка и тесты проходят успешно 
+- **Coveralls**: Отчет о покрытии кода генерируется автоматически 
+
+## Building
+
+Проект собирается с помощью CMake. Для сборки тестов используется флаг `BUILD_TESTS`.
+
+```bash
+cmake -H. -B_build -DBUILD_TESTS=ON
+cmake --build _build
+```
 
 <details>
 <summary>Вывод</summary>
 
 ```bash
-Клонирование в «laba4»...
-remote: Enumerating objects: 90, done.
-remote: Counting objects: 100% (90/90), done.
-remote: Compressing objects: 100% (63/63), done.
-remote: Total 90 (delta 17), reused 85 (delta 15), pack-reused 0 (from 0)
-Получение объектов: 100% (90/90), 71.40 KiB | 777.00 KiB/s, готово.
-Определение изменений: 100% (17/17), готово.
+-- The C compiler identification is AppleClang 17.0.0.17000013
+-- The CXX compiler identification is AppleClang 17.0.0.17000013
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+CMake Deprecation Warning at third-party/gtest/CMakeLists.txt:4 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+CMake Deprecation Warning at third-party/gtest/googlemock/CMakeLists.txt:45 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+CMake Deprecation Warning at third-party/gtest/googletest/CMakeLists.txt:56 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+-- Found Python: /opt/homebrew/Frameworks/Python.framework/Versions/3.14/bin/python3.14 (found version "3.14.3") found components: Interpreter
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE
+-- Configuring done (0.8s)
+-- Generating done (0.0s)
+-- Build files have been written to: /Users/aleksandrgolikov/workspace/projects/laba5/laba5/_build
+
+
+
+[  7%] Building CXX object banking/CMakeFiles/banking.dir/Account.cpp.o
+[ 15%] Building CXX object banking/CMakeFiles/banking.dir/Transaction.cpp.o
+[ 23%] Linking CXX static library libbanking.a
+[ 23%] Built target banking
+[ 30%] Building CXX object banking/gtest/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o
+[ 38%] Linking CXX static library ../../../lib/libgtest.a
+[ 38%] Built target gtest
+[ 46%] Building CXX object banking/gtest/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o
+[ 53%] Linking CXX static library ../../../lib/libgtest_main.a
+[ 53%] Built target gtest_main
+[ 61%] Building CXX object banking/gtest/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.o
+[ 69%] Linking CXX static library ../../../lib/libgmock.a
+[ 69%] Built target gmock
+[ 76%] Building CXX object banking/CMakeFiles/check.dir/tests/test_banking.cpp.o
+[ 84%] Linking CXX executable check
+[ 84%] Built target check
+[ 92%] Building CXX object banking/gtest/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o
+[100%] Linking CXX static library ../../../lib/libgmock_main.a
+[100%] Built target gmock_main
 ```
 </details>
 
-Смена удаленного репозитория: `git remote remove origin` и `git remote add origin git@github.com:2dmpjv8fgy-commits/laba4.git`
+##Running Tests
 
-Создание конфигурации Workflow: `mkdir -p .github/workflows` 
+`./_build/banking/check`
 
 <details>
 <summary>Вывод</summary>
 
 ```bash
-cat > .github/workflows/action.yml <<EOF
-name: CMake Build
-on: [push]
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: Configure CMake
-      run: cmake -H. -B_build -DCMAKE_INSTALL_PREFIX=_install
-    - name: Build Project
-      run: cmake --build _build
-    - name: Install Project
-      run: cmake --build _build --target install
-EOF
+
+Running main() from /Users/aleksandrgolikov/workspace/projects/laba5/laba5/third-party/gtest/googletest/src/gtest_main.cc
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from BankingTest
+[ RUN      ] BankingTest.TransactionAppliesChanges
+[       OK ] BankingTest.TransactionAppliesChanges (0 ms)
+[----------] 1 test from BankingTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
 ```
 </details>
 
-процесс подготовки изменений к сохранении и создание именного «снимка» проекта в истории изменений: `git add .github/workflows/action.yml` `git commit -m "update code structure"`
-
-<details>
-<summary>Вывод</summary>
-
-```bash
-[main 3ae947a] update code structure
- 4 files changed, 8 insertions(+), 8 deletions(-)
- create mode 100644 formatter_ex_lib/CMakeLists.txt
- create mode 100644 formatter_lib/CMakeLists.txt
- create mode 100644 solver_lib/CMakeLists.txt
-```
-</details>
-
-команда: `git push origin main`
-
-<details>
-<summary>Вывод</summary>
-
-```bash
-Перечисление объектов: 14, готово.
-Подсчет объектов: 100% (14/14), готово.
-При сжатии изменений используется до 12 потоков
-Сжатие объектов: 100% (7/7), готово.
-Запись объектов: 100% (9/9), 956 bytes | 956.00 KiB/s, готово.
-Total 9 (delta 2), reused 0 (delta 0), pack-reused 0 (from 0)
-remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
-To github.com:2dmpjv8fgy-commits/laba4.git
-   4997ab7..3ae947a  main -> main
-```
-</details>
+## Code Coverage
 
 
+| File | Coverage |
+|------|----------|
+| Account.cpp | 100% ✅ |
+| Transaction.cpp | 100% ✅ |
+| **Total** | **100%** ✅ |
 
-
+## Особенности реализации
+- Account management: Поддержка блокировки счета, изменения баланса и получения текущего состояния.
+- Isolated testing: Использование Mock-объектов (gmock) для тестирования транзакций без зависимости от реальных объектов аккаунтов.
+- Error handling: Покрытие тестами случаев выброса исключений (std::runtime_error) при попытке изменения незаблокированного счета.
+- Automated Reporting: Интеграция с сервисом Coveralls для визуализации покрытия строк кода.
 
 
 
