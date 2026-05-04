@@ -17,6 +17,9 @@ jobs:
         submodules: recursive
         fetch-depth: 0
 
+    - name: Install lcov
+      run: sudo apt-get install -y lcov
+
     - name: Configure CMake
       run: cmake -H. -B_build -DBUILD_TESTS=ON -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 
@@ -25,3 +28,14 @@ jobs:
 
     - name: Run Tests
       run: ./_build/banking/check
+
+    - name: Generate Coverage Report
+      run: |
+        lcov --directory . --capture --output-file coverage.info
+        lcov --remove coverage.info '/usr/*' '*/third-party/*' --output-file coverage.info
+        lcov --list coverage.info
+
+    - name: Upload to Coveralls
+      uses: coverallsapp/github-action@v2
+      with:
+        file: coverage.info
