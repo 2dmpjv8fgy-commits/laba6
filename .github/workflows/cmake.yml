@@ -1,4 +1,4 @@
-name: CMake
+name: CMake Build
 
 on:
   push:
@@ -8,12 +8,18 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
       with:
         submodules: recursive
+
+    - name: Set up GTest
+      run: |
+        cd third-party/gtest
+        git checkout release-1.11.0
 
     - name: Configure CMake
       run: cmake -H. -B_build -DBUILD_TESTS=ON -DCMAKE_POLICY_VERSION_MINIMUM=3.5
@@ -21,5 +27,5 @@ jobs:
     - name: Build
       run: cmake --build _build
 
-    - name: Test
+    - name: Run Tests
       run: ./_build/banking/check
