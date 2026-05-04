@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <stdexcept>
 #include "../Account.h"
 #include "../Transaction.h"
 
@@ -32,3 +33,19 @@ TEST_F(BankingTest, TransactionAppliesChanges) {
 
     EXPECT_TRUE(tr.Make(acc1, acc2, 300));
 }
+
+TEST(AccountTest, RealAccountCoverage) {
+    Account acc(123, 1000);
+    EXPECT_EQ(acc.GetBalance(), 1000);
+    
+    acc.Lock();
+    acc.Unlock();
+    
+    acc.Lock();
+    EXPECT_TRUE(acc.ChangeBalance(500));
+    EXPECT_EQ(acc.GetBalance(), 1500);
+    
+    acc.Unlock();
+    EXPECT_THROW(acc.ChangeBalance(100), std::runtime_error);
+}
+
