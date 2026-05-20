@@ -1,20 +1,10 @@
-# Laboratory work V
+# Laboratory work VI
 
-Реализация банковской системы с комплексным модульным тестированием с использованием фреймворков **Google Test** и **Google Mock**. Настроена автоматическая сборка и проверка покрытия кода через GitHub Actions и Coveralls.
+Цель работы: создание покетов для изменения(должны сочетаться с тегами) Для этого нужно добавить ветлвение в конфигурационные файлы для СL.
 
-## CI/CD Status
+Сборка проекта и локальная генерация пакетов
 
-- **GitHub Actions**: Сборка и тесты проходят успешно 
-- **Coveralls**: Отчет о покрытии кода генерируется автоматически 
-
-## Building
-
-Проект собирается с помощью CMake. Для сборки тестов используется флаг `BUILD_TESTS`.
-
-```bash
-cmake -H. -B_build -DBUILD_TESTS=ON
-cmake --build _build
-```
+Команда: `cmake -H. -B_build`
 
 <details>
 <summary>Вывод</summary>
@@ -22,113 +12,186 @@ cmake --build _build
 ```bash
 -- The C compiler identification is AppleClang 17.0.0.17000013
 -- The CXX compiler identification is AppleClang 17.0.0.17000013
--- Detecting C compiler ABI info
--- Detecting C compiler ABI info - done
--- Check for working C compiler: /usr/bin/cc - skipped
--- Detecting C compile features
--- Detecting C compile features - done
--- Detecting CXX compiler ABI info
--- Detecting CXX compiler ABI info - done
--- Check for working CXX compiler: /usr/bin/c++ - skipped
--- Detecting CXX compile features
--- Detecting CXX compile features - done
-CMake Deprecation Warning at third-party/gtest/CMakeLists.txt:4 (cmake_minimum_required):
-  Compatibility with CMake < 3.10 will be removed from a future version of
-  CMake.
-
-  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
-  to tell CMake that the project requires at least <min> but has been updated
-  to work with policies introduced by <max> or earlier.
-
-
-CMake Deprecation Warning at third-party/gtest/googlemock/CMakeLists.txt:45 (cmake_minimum_required):
-  Compatibility with CMake < 3.10 will be removed from a future version of
-  CMake.
-
-  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
-  to tell CMake that the project requires at least <min> but has been updated
-  to work with policies introduced by <max> or earlier.
-
-
-CMake Deprecation Warning at third-party/gtest/googletest/CMakeLists.txt:56 (cmake_minimum_required):
-  Compatibility with CMake < 3.10 will be removed from a future version of
-  CMake.
-
-  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
-  to tell CMake that the project requires at least <min> but has been updated
-  to work with policies introduced by <max> or earlier.
-
-
--- Found Python: /opt/homebrew/Frameworks/Python.framework/Versions/3.14/bin/python3.14 (found version "3.14.3") found components: Interpreter
--- Performing Test CMAKE_HAVE_LIBC_PTHREAD
--- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
--- Found Threads: TRUE
--- Configuring done (0.8s)
+-- Configuring done (0.4s)
 -- Generating done (0.0s)
--- Build files have been written to: /Users/aleksandrgolikov/workspace/projects/laba5/laba5/_build
-
-
-
-[  7%] Building CXX object banking/CMakeFiles/banking.dir/Account.cpp.o
-[ 15%] Building CXX object banking/CMakeFiles/banking.dir/Transaction.cpp.o
-[ 23%] Linking CXX static library libbanking.a
-[ 23%] Built target banking
-[ 30%] Building CXX object banking/gtest/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o
-[ 38%] Linking CXX static library ../../../lib/libgtest.a
-[ 38%] Built target gtest
-[ 46%] Building CXX object banking/gtest/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o
-[ 53%] Linking CXX static library ../../../lib/libgtest_main.a
-[ 53%] Built target gtest_main
-[ 61%] Building CXX object banking/gtest/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.o
-[ 69%] Linking CXX static library ../../../lib/libgmock.a
-[ 69%] Built target gmock
-[ 76%] Building CXX object banking/CMakeFiles/check.dir/tests/test_banking.cpp.o
-[ 84%] Linking CXX executable check
-[ 84%] Built target check
-[ 92%] Building CXX object banking/gtest/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o
-[100%] Linking CXX static library ../../../lib/libgmock_main.a
-[100%] Built target gmock_main
+-- Build files have been written to: /Users/aleksandrgolikov/workspace/projects/lab06/_build
 ```
 </details>
 
-##Running Tests
-
-`./_build/banking/check`
+`cmake --build _build`
 
 <details>
 <summary>Вывод</summary>
 
 ```bash
-
-Running main() from /Users/aleksandrgolikov/workspace/projects/laba5/laba5/third-party/gtest/googletest/src/gtest_main.cc
-[==========] Running 1 test from 1 test suite.
-[----------] Global test environment set-up.
-[----------] 1 test from BankingTest
-[ RUN      ] BankingTest.TransactionAppliesChanges
-[       OK ] BankingTest.TransactionAppliesChanges (0 ms)
-[----------] 1 test from BankingTest (0 ms total)
-
-[----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (0 ms total)
-[  PASSED  ] 1 test.
+[ 20%] Building CXX object formatter_lib/CMakeFiles/formatter.dir/formatter.cpp.o
+[ 40%] Linking CXX static library libformatter.a
+[ 40%] Built target formatter
+[ 60%] Building CXX object CMakeFiles/solver_app.dir/solver_application/main.cpp.o
+[ 80%] Building CXX object CMakeFiles/solver_app.dir/solver_lib/solver.cpp.o
+[100%] Linking CXX executable solver_app
+[100%] Built target solver_app
 ```
 </details>
 
-## Code Coverage
+После успешной компиляции была выполнена локальная проверка работоспособности утилиты cpack для создания архивов формата .tar.gz и .zip
 
+`cd _build`
+`cpack -G "TGZ"`
 
-| File | Coverage |
-|------|----------|
-| Account.cpp | 100% ✅ |
-| Transaction.cpp | 100% ✅ |
-| **Total** | **100%** ✅ |
+CPack: Create package using TGZ
 
-## Особенности реализации
-- Account management: Поддержка блокировки счета, изменения баланса и получения текущего состояния.
-- Isolated testing: Использование Mock-объектов (gmock) для тестирования транзакций без зависимости от реальных объектов аккаунтов.
-- Error handling: Покрытие тестами случаев выброса исключений (std::runtime_error) при попытке изменения незаблокированного счета.
-- Automated Reporting: Интеграция с сервисом Coveralls для визуализации покрытия строк кода.
+CPack: - package: /Users/aleksandrgolikov/workspace/projects/lab06/_build/SolverProject-1.0.0-Darwin.tar.gz generated.
 
+`cpack -G "ZIP"`
+
+CPack: Create package using ZIP
+
+CPack: - package: /Users/aleksandrgolikov/workspace/projects/lab06/_build/SolverProject-1.0.0-Darwin.zip generated.
+
+`cd ..`
+
+Инициализация и очистка сценариев автоматизации
+
+ `mkdir -p .github/workflows`
+`ls -la .github/workflows/total 16`
+
+<details>
+<summary>Вывод</summary>
+
+```bash
+drwxr-xr-x  4 aleksandrgolikov  staff   128 18 май 21:07 .
+drwxr-xr-x  3 aleksandrgolikov  staff    96 18 май 11:24 ..
+-rw-r--r--  1 aleksandrgolikov  staff   972 18 май 11:24 cmake.yml
+-rw-r--r--  1 aleksandrgolikov  staff  1462 18 май 21:07 release.yml
+```
+</details>
+
+`rm .github/workflows/cmake.yml`
+
+Настройка конфигурации GitHub Actions
+
+<details>
+<summary>Вывод</summary>
+
+```bash
+name: Share Releases
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install CPack Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y rpm dpkg
+
+    - name: Configure CMake
+      run: cmake -H. -B_build
+
+    - name: Build project
+      run: cmake --build _build
+
+    - name: Run CPack Packages
+      run: |
+        cd _build
+        cpack -G "DEB"
+        cpack -G "RPM"
+        cpack -G "TGZ"
+
+    - name: Create and Upload Release
+      uses: softprops/action-gh-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        files: |
+          _build/*.deb
+          _build/*.rpm
+          _build/*.tar.gz
+```
+</details>
+
+Перепривязка репозитория и фиксация изменений
+
+`git remote set-url origin git@github.com:2dmpjv8fgy-commits/laba6.git`
+`git add .`
+`git commit -m "build: explicitly grant write permissions for releases"`
+
+<details>
+<summary>Вывод</summary>
+
+```bash
+[main 5d588a2] build: explicitly grant write permissions for releases
+ 1 file changed, 3 insertions(+)
+```
+</details>
+
+`git push origin main`
+
+<details>
+<summary>Вывод</summary>
+
+```bash
+Перечисление объектов: 9, готово.
+Запись объектов: 100% (5/5), 469 bytes | 469.00 KiB/s, готово.
+To github.com:2dmpjv8fgy-commits/laba6.git
+   d601f07..5d588a2  main -> main
+```
+</details>
+
+Запуск деплоя через создание тега
+
+`git tag v1.0.5`
+`git push origin v1.0.5`
+
+<details>
+<summary>Вывод</summary>
+
+```bash
+Total 0 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+To github.com:2dmpjv8fgy-commits/laba6.git
+ * [new tag]         v1.0.5 -> v1.0.5
+```
+</details>
+
+Для исключения ошибок отображения структуры проекта на GitHub, из корня репозитория был удален пустой некорректный файл-дубликат CPackConfig.cmake\, созданный из-за опечатки экранирования в терминале.
+
+`rm CPackConfig.cmake\\`
+`git add .`
+`git commit -m "chore: remove accidental duplicate file"`
+
+<details>
+<summary>Вывод</summary>
+
+```bash
+[main a28d92e] chore: remove accidental duplicate file
+ 1 file changed, 29 deletions(-)
+ delete mode 100644 "CPackConfig.cmake\\"
+```
+</details>
+
+`git push origin main`
+
+<details>
+<summary>Вывод</summary>
+
+```bash
+To github.com:2dmpjv8fgy-commits/laba6.git
+   5d588a2..a28d92e  main -> main
+```
+</details>
 
 
 
