@@ -30,30 +30,27 @@ jobs:
     - name: Run CPack on Linux
       if: matrix.os == 'ubuntu-latest'
       run: |
-        cmake -S . -B _build
+        cmake -S . -B _build -DCMAKE_BUILD_TYPE=Release
         cmake --build _build --config Release
-        cd _build
-        cpack -G "DEB"
-        cpack -G "RPM"
-        cpack -G "TGZ"
+        cpack --config _build/CPackConfig.cmake -G "DEB"
+        cpack --config _build/CPackConfig.cmake -G "RPM"
+        cpack --config _build/CPackConfig.cmake -G "TGZ"
 
     # --- WINDOWS STEP ---
     - name: Run CPack on Windows
       if: matrix.os == 'windows-latest'
       run: |
-        cmake -S . -B _build
+        cmake -S . -B _build -DCMAKE_BUILD_TYPE=Release
         cmake --build _build --config Release
-        cd _build
-        cpack -G "WIX" -C Release
+        cpack --config _build/CPackConfig.cmake -G "WIX" -C Release
 
     # --- MACOS STEP ---
     - name: Run CPack on macOS
       if: matrix.os == 'macos-latest'
       run: |
-        cmake -S . -B _build
+        cmake -S . -B _build -DCMAKE_BUILD_TYPE=Release
         cmake --build _build --config Release
-        cd _build
-        cpack -G "DragNDrop"
+        cpack --config _build/CPackConfig.cmake -G "DragNDrop"
 
     # --- UPLOAD STEP ---
     - name: Create and Upload Release
