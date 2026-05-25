@@ -32,9 +32,10 @@ jobs:
       run: |
         cmake -S . -B _build -DCMAKE_BUILD_TYPE=Release
         cmake --build _build --config Release
-        cpack --config _build/CPackConfig.cmake -G "DEB"
-        cpack --config _build/CPackConfig.cmake -G "RPM"
-        cpack --config _build/CPackConfig.cmake -G "TGZ"
+        cd _build
+        cpack -G "DEB"
+        cpack -G "RPM"
+        cpack -G "TGZ"
 
     # --- WINDOWS STEP ---
     - name: Run CPack on Windows
@@ -42,7 +43,8 @@ jobs:
       run: |
         cmake -S . -B _build -DCMAKE_BUILD_TYPE=Release
         cmake --build _build --config Release
-        cpack --config _build/CPackConfig.cmake -G "WIX" -C Release
+        cd _build
+        cpack -G "WIX" -C Release
 
     # --- MACOS STEP ---
     - name: Run CPack on macOS
@@ -50,7 +52,8 @@ jobs:
       run: |
         cmake -S . -B _build -DCMAKE_BUILD_TYPE=Release
         cmake --build _build --config Release
-        cpack --config _build/CPackConfig.cmake -G "DragNDrop"
+        cd _build
+        cpack -G "DragNDrop"
 
     # --- UPLOAD STEP ---
     - name: Create and Upload Release
