@@ -5,7 +5,6 @@ on:
     tags:
       - 'v*'
 
-# Выдаем права на запись контента, чтобы GitHub Actions мог создавать релизы
 permissions:
   contents: write
 
@@ -15,14 +14,13 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        # Запускаем параллельно на Linux, Windows и macOS
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    # --- СБОРКА НА LINUX (DEB, RPM, TGZ) ---
+    # --- LINUX STEP ---
     - name: Install Linux Dependencies
       if: matrix.os == 'ubuntu-latest'
       run: |
@@ -32,33 +30,32 @@ jobs:
     - name: Run CPack on Linux
       if: matrix.os == 'ubuntu-latest'
       run: |
-        cmake -H. -B_build
+        cmake -S . -B _build
         cmake --build _build --config Release
         cd _build
         cpack -G "DEB"
         cpack -G "RPM"
         cpack -G "TGZ"
 
-    # --- СБОРКА НА WINDOWS (MSI) ---
+    # --- WINDOWS STEP ---
     - name: Run CPack on Windows
       if: matrix.os == 'windows-latest'
       run: |
-        cmake -H. -B_build
+        cmake -S . -B _build
         cmake --build _build --config Release
         cd _build
         cpack -G "WIX" -C Release
 
-    # --- СБОРКА НА MACOS (DMG) ---
+    # --- MACOS STEP ---
     - name: Run CPack on macOS
       if: matrix.os == 'macos-latest'
       run: |
-        cmake -H. -B_build
+        cmake -S . -B _build
         cmake --build _build --config Release
         cd _build
         cpack -G "DragNDrop"
 
-    # --- СБОРКА И ПУБЛИКАЦИЯ РЕЛИЗА ---
-    # Каждый раннер собранные им файлы закинет в один общих релиз автоматически
+    # --- UPLOAD STEP ---
     - name: Create and Upload Release
       uses: softprops/action-gh-release@v2
       env:
