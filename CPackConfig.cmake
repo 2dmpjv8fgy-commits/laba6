@@ -1,5 +1,4 @@
- include(InstallRequiredSystemLibraries)
-
+include(InstallRequiredSystemLibraries)
 
 set(CPACK_PACKAGE_CONTACT "your_email@student.bmstu.ru")
 set(CPACK_PACKAGE_VERSION_MAJOR ${PRINT_VERSION_MAJOR})
@@ -26,12 +25,16 @@ set(CPACK_DEBIAN_PACKAGE_NAME "solver-application-dev")
 set(CPACK_DEBIAN_PACKAGE_PREDEPENDS "cmake >= 3.0")
 set(CPACK_DEBIAN_PACKAGE_RELEASE 1)
 
+# --- НАСТРОЙКИ ДЛЯ WINDOWS (MSI через WIX) ---
 set(CPACK_WIX_PACKAGE_NAME "SolverProject")
 set(CPACK_WIX_PRODUCT_GUID "12345678-ABCD-EF12-3456-7890ABCDEF12")
 set(CPACK_WIX_UPGRADE_GUID "87654321-ABCD-EF12-3456-7890ABCDEF12")
 
+# Подсовываем README.md вместо LICENSE, так как у него есть расширение, и WiX его проглотит:
+set(CPACK_WIX_LICENSE_RTF "${PROJECT_SOURCE_DIR}/README.md")
+
+# --- НАСТРОЙКИ ДЛЯ MACOS (DMG) ---
 set(CPACK_DMG_VOLUME_NAME "SolverProject Setup")
 set(CPACK_DMG_FORMAT "UDZO")
 
 include(CPack)
-
