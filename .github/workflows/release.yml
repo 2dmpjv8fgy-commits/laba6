@@ -44,7 +44,7 @@ jobs:
         cmake -S . -B _build -DCMAKE_BUILD_TYPE=Release
         cmake --build _build --config Release
         cd _build
-        cpack -G "WIX" -C Release
+        cpack -G "ZIP"
 
     # --- MACOS STEP ---
     - name: Run CPack on macOS
